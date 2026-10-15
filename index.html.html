@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>수학 한컷 전시회 출품서</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+<style>
+  :root {
+    --bg: #eef1f7;
+    --paper: #ffffff;
+    --soft: #f6f8fc;
+    --line: #cfd6e4;
+    --ink: #1f2430;
+    --muted: #6b7385;
+    --accent: #3b5bdb;
+    --accent-ink: #2b3f9e;
+    --accent-soft: #e8eeff;
+    --ok: #2f7d4f;
+    --ok-soft: #e5f4ea;
+    --warn: #d0312d;
+    --warn-soft: #fbe9e7;
+    --font: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.55;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    padding: 20px 16px;
+  }
+  input, textarea, button { font-family: inherit; color: inherit; }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    background: var(--paper);
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* 헤더 */
+  .title-box {
+    text-align: center;
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    padding: 18px 12px;
+    background: var(--accent-soft);
+  }
+  .title-box h2 {
+    margin: 0 0 4px;
+    color: var(--accent-ink);
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .title-box h4 {
+    margin: 0;
+    color: var(--muted);
+    font-size: clamp(1rem, 4vw, 1.15rem);
+    font-weight: 500;
+  }
+
+  main { display: flex; flex-direction: column; gap: 16px; }
+  main section {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  main h3 {
+    margin: 0 0 12px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--accent-ink);
+  }
+
+  /* 1구역: 출품 부문 */
+  .category-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .category-list label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--soft);
+    cursor: pointer;
+    min-width: 0;
+    font-size: 0.97rem;
+  }
+  .category-list label:has(input:checked) {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    font-weight: 700;
+  }
+  .category-list input {
+    width: 20px; height: 20px; margin: 0;
+    flex-shrink: 0;
+    accent-color: var(--accent);
+  }
+
+  /* 2구역: 사진 */
+  .work-title { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .work-title label { font-weight: 700; }
+  .text-input {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--paper);
+    font-size: 16px;
+  }
+  .text-input::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.85; }
+  .text-input:focus, textarea:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+    border-color: var(--accent);
+  }
+  .image-box {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border: 2px dashed var(--line);
+    border-radius: 12px;
+    background: var(--soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 12px;
+    padding: 12px;
+    text-align: center;
+  }
+  .image-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .image-box span { color: var(--muted); }
+  .file-btn {
+    display: block;
+    position: relative;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--accent);
+    color: var(--accent-ink);
+    background: var(--paper);
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .file-btn:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .file-btn input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .file-name { margin-top: 6px; font-size: 0.9rem; color: var(--muted); text-align: center; }
+
+  /* 3구역: 2×2 */
+  .grid-2x2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .cell {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px;
+    background: var(--soft);
+    min-width: 0;
+  }
+  .cell label { display: block; margin-bottom: 8px; font-weight: 700; }
+  .cell textarea {
+    display: block;
+    width: 100%;
+    min-height: 120px;
+    resize: vertical;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px;
+    background: var(--paper);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  /* [추가] 글자 수 표시 */
+  .counter {
+    margin-top: 4px;
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  /* 푸터 */
+  footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  footer .text-input { width: 160px; }
+  footer button {
+    padding: 12px 24px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  footer button:hover { filter: brightness(0.92); }
+  footer button:disabled { opacity: 0.6; cursor: wait; }
+  footer button:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
+
+  .status {
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 500;
+  }
+  .status.ok { background: var(--ok-soft); color: var(--ok); }
+  .status.warn { background: var(--warn-soft); color: var(--warn); }
+
+  /* [추가] 빈칸·잘못된 칸 빨간 테두리 */
+  .text-input.invalid,
+  .cell textarea.invalid {
+    border: 2px solid var(--warn);
+    background: var(--warn-soft);
+  }
+  .image-box.invalid { border-color: var(--warn); background: var(--warn-soft); }
+  .category-list.invalid label { border-color: var(--warn); }
+  [hidden] { display: none !important; }
+
+  /* [추가] 갤러리 */
+  .gallery-wrap { margin-top: 20px; }
+  .gallery-head h3 { margin: 0 0 10px; font-size: 1.15rem; color: var(--accent-ink); }
+  .gallery-head .count { font-size: 0.9rem; font-weight: 500; color: var(--muted); }
+  .filters { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--soft);
+    font-size: 0.88rem;
+    cursor: pointer;
+  }
+  .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
+  .gallery-msg { margin: 0; color: var(--muted); text-align: center; padding: 20px 0; }
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--paper);
+    overflow: hidden;
+    cursor: pointer;
+    min-width: 0;
+  }
+  .card:hover { border-color: var(--accent); }
+  .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; background: var(--soft); }
+  .card-body { padding: 8px 10px 10px; }
+  .card-title { font-weight: 700; margin: 0 0 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+  }
+
+  /* [추가] 자세히 보기 창 */
+  dialog {
+    width: min(640px, calc(100% - 32px));
+    max-height: calc(100% - 32px);
+    padding: 0;
+    border: none;
+    border-radius: 14px;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  dialog::backdrop { background: rgba(15, 20, 35, 0.6); }
+  .dlg-inner { position: relative; padding: 16px; }
+  .dlg-inner img { width: 100%; max-height: 60vh; object-fit: contain; border-radius: 8px; background: var(--soft); display: block; }
+  .dlg-inner h3 { margin: 12px 0 6px; font-size: 1.2rem; color: var(--accent-ink); }
+  .dlg-close {
+    position: absolute; top: 22px; right: 22px;
+    width: 36px; height: 36px;
+    border: none; border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55); color: #fff;
+    font-size: 1rem; cursor: pointer;
+  }
+  .dlg-desc { margin: 12px 0 0; }
+  .dlg-desc dt { font-weight: 700; margin-top: 10px; }
+  .dlg-desc dd { margin: 2px 0 0; white-space: pre-wrap; }
+
+  @media (max-width: 600px) {
+    body { padding: 10px 16px; }
+    .container { padding: 14px; gap: 14px; }
+    main { gap: 14px; }
+    main section { padding: 12px; }
+    .category-list label { padding: 9px 10px; font-size: 0.92rem; }
+    .grid-2x2 { grid-template-columns: 1fr; }
+    footer .text-input { flex: 1 1 40%; width: auto; min-width: 0; }
+    footer button { flex: 1 1 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="title-box">
+      <h2>수학 한컷 전시회</h2>
+      <h4>학교 안에서 수학 발견하기</h4>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1구역: 출품 부문 체크 -->
+    <section>
+      <h3>출품 부문</h3>
+      <div class="category-list" id="categoryList">
+        <label><input type="checkbox" name="category" value="A">A 도형과 측정</label>
+        <label><input type="checkbox" name="category" value="B">B 변화와 관계</label>
+        <label><input type="checkbox" name="category" value="C">C 자료와 가능성</label>
+        <label><input type="checkbox" name="category" value="D">D 문제해결과 모델링</label>
+      </div>
+    </section>
+
+    <!-- 2구역: 사진 -->
+    <section>
+      <h3>한컷 사진</h3>
+      <div class="work-title">
+        <label for="workTitle">작품 제목</label>
+        <input type="text" id="workTitle" class="text-input" placeholder="작품 제목을 입력하세요.">
+      </div>
+      <div class="image-box" id="imageBox">
+        <span id="placeholderText">사진을 선택하면 여기에 미리보기가 나타납니다.</span>
+        <img id="preview" alt="출품 사진 미리보기" hidden>
+      </div>
+      <label class="file-btn">
+        사진 선택하기
+        <input type="file" id="photoInput" accept="image/*">
+      </label>
+      <div class="file-name" id="fileName">선택된 사진 없음</div>
+    </section>
+
+    <!-- 3구역: 2×2 설명 -->
+    <section>
+      <h3>작품 설명</h3>
+      <div class="grid-2x2">
+        <div class="cell">
+          <label for="d1">① 발견: 사진 설명</label>
+          <textarea id="d1" placeholder="어디에서 무엇을 찍었는지 적어 보세요."></textarea>
+          <div class="counter" id="d1Count">0자</div>
+        </div>
+        <div class="cell">
+          <label for="d2">② 연결: 수학개념</label>
+          <textarea id="d2" placeholder="사진 속에서 찾은 수학 개념을 적어 보세요."></textarea>
+          <div class="counter" id="d2Count">0자</div>
+        </div>
+        <div class="cell">
+          <label for="d3">③ 근거: 수와 식</label>
+          <textarea id="d3" placeholder="왜 그렇게 생각했나요? 측정값이나 계산식을 적어주세요."></textarea>
+          <div class="counter" id="d3Count">0자</div>
+        </div>
+        <div class="cell">
+          <label for="d4">④ 확장: 변화, 심화</label>
+          <textarea id="d4" placeholder="처음 생각과 달라진 점, 더 알고 싶은 점을 적어 보세요."></textarea>
+          <div class="counter" id="d4Count">0자</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <input type="text" id="studentId" class="text-input" placeholder="예: 10130"
+           inputmode="numeric" maxlength="5" aria-label="학번">
+    <input type="text" id="studentName" class="text-input" placeholder="이름" aria-label="이름">
+    <button type="button" id="submitBtn">제출하기</button>
+  </footer>
+
+  <div class="status" id="status" role="status" hidden></div>
+
+</div>
+
+<!-- [추가] 갤러리: 제출된 작품 보기 -->
+<div class="container gallery-wrap">
+  <div class="gallery-head">
+    <h3>작품 갤러리 <span id="galleryCount" class="count"></span></h3>
+    <div class="filters" id="filters" role="group" aria-label="출품 부문으로 거르기">
+      <button type="button" class="chip active" data-cat="all">전체</button>
+      <button type="button" class="chip" data-cat="A">A 도형과 측정</button>
+      <button type="button" class="chip" data-cat="B">B 변화와 관계</button>
+      <button type="button" class="chip" data-cat="C">C 자료와 가능성</button>
+      <button type="button" class="chip" data-cat="D">D 문제해결과 모델링</button>
+    </div>
+  </div>
+  <p class="gallery-msg" id="galleryMsg">작품을 불러오는 중...</p>
+  <div class="gallery" id="gallery"></div>
+</div>
+
+<!-- [추가] 작품 자세히 보기 창 -->
+<dialog id="workDialog" aria-labelledby="dlgTitle">
+  <div class="dlg-inner">
+    <button type="button" class="dlg-close" id="dlgClose" aria-label="닫기">✕</button>
+    <img id="dlgImg" alt="">
+    <h3 id="dlgTitle"></h3>
+    <div class="tags" id="dlgTags"></div>
+    <dl class="dlg-desc" id="dlgDesc"></dl>
+  </div>
+</dialog>
+
+<script type="module">
+  // ── Firebase 불러오기 (Storage는 쓰지 않음) ──
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+  import { getFirestore, collection, doc, writeBatch, serverTimestamp,
+           query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+  // Firebase 프로젝트 설정
+  const firebaseConfig = {
+    apiKey: "AIzaSyADH3taXE0QMboWNPqWYUoN2JBoyD8FCKM",
+    authDomain: "math-1cut-fe2aa.firebaseapp.com",
+    projectId: "math-1cut-fe2aa",
+    storageBucket: "math-1cut-fe2aa.firebasestorage.app",
+    messagingSenderId: "509639931011",
+    appId: "1:509639931011:web:16955397f7bd25ccf657b6"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // ── 사진 줄이기 설정 ──
+  // Firestore 문서 하나는 1MB까지만 저장되므로, 사진을 약 700KB 이하로 줄인다.
+  const MAX_SIDE = 1280;          // 긴 변 최대 픽셀
+  const MAX_CHARS = 700000;       // 저장할 사진 글자 수 상한(약 500KB)
+
+  const photoInput = document.getElementById('photoInput');
+  const preview = document.getElementById('preview');
+  const placeholderText = document.getElementById('placeholderText');
+  const fileName = document.getElementById('fileName');
+  const statusBox = document.getElementById('status');
+  const imageBox = document.getElementById('imageBox');
+  const categoryList = document.getElementById('categoryList');
+  const workTitle = document.getElementById('workTitle');
+  const studentId = document.getElementById('studentId');
+  const studentName = document.getElementById('studentName');
+  const submitBtn = document.getElementById('submitBtn');
+
+  let photoData = null;   // 줄인 사진(글자 형태). 제출할 때 이걸 저장한다.
+
+  const descs = [
+    { el: document.getElementById('d1'), label: '① 발견', key: '사진설명' },
+    { el: document.getElementById('d2'), label: '② 연결', key: '수학개념' },
+    { el: document.getElementById('d3'), label: '③ 근거', key: '수와식' },
+    { el: document.getElementById('d4'), label: '④ 확장', key: '변화심화' }
+  ];
+
+  function setInvalid(el, bad) { el.classList.toggle('invalid', bad); }
+
+  function showStatus(msg, type) {
+    statusBox.textContent = msg;
+    statusBox.className = 'status ' + type;
+    statusBox.hidden = false;
+  }
+
+  // [추가] 사진 파일을 읽어서 크기를 줄인 JPEG로 바꾸기
+  function loadImage(file) {
+    return new Promise(function (resolve, reject) {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = function () { URL.revokeObjectURL(url); resolve(img); };
+      img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('사진을 열 수 없습니다.')); };
+      img.src = url;
+    });
+  }
+
+  async function shrinkPhoto(file) {
+    const img = await loadImage(file);
+    let side = MAX_SIDE;
+    let quality = 0.8;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // 용량 상한 안에 들어올 때까지 화질 → 크기 순서로 낮춘다
+    for (let i = 0; i < 10; i++) {
+      const scale = Math.min(1, side / Math.max(img.naturalWidth, img.naturalHeight));
+      canvas.width = Math.round(img.naturalWidth * scale);
+      canvas.height = Math.round(img.naturalHeight * scale);
+      ctx.fillStyle = '#fff';                 // 투명 배경(PNG)은 흰색으로
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const data = canvas.toDataURL('image/jpeg', quality);
+      if (data.length <= MAX_CHARS) {
+        return { data: data, width: canvas.width, height: canvas.height };
+      }
+      if (quality > 0.55) quality -= 0.1;
+      else side = Math.round(side * 0.8);
+    }
+    throw new Error('사진을 충분히 줄이지 못했습니다.');
+  }
+
+  // 사진 선택 → 줄이기 → 미리보기
+  photoInput.addEventListener('change', async function () {
+    const file = this.files[0];
+    if (!file) return;
+    photoData = null;
+    fileName.textContent = '사진을 준비하는 중...';
+    try {
+      const result = await shrinkPhoto(file);
+      photoData = result.data;
+      preview.src = photoData;           // 줄인 사진을 그대로 미리보기로 사용
+      preview.hidden = false;
+      placeholderText.hidden = true;
+      setInvalid(imageBox, false);
+      const kb = Math.round(photoData.length * 0.75 / 1024);
+      fileName.textContent = file.name + ' · 저장 크기 ' + result.width + '×' + result.height + ', 약 ' + kb + 'KB';
+    } catch (err) {
+      console.error(err);
+      fileName.textContent = '이 사진은 사용할 수 없어요. 다른 사진을 골라 주세요.';
+      preview.hidden = true;
+      placeholderText.hidden = false;
+    }
+  });
+
+  // 설명칸 글자 수 표시
+  descs.forEach(function (d) {
+    const counter = document.getElementById(d.el.id + 'Count');
+    d.el.addEventListener('input', function () {
+      counter.textContent = d.el.value.length + '자';
+      if (d.el.value.trim()) setInvalid(d.el, false);
+    });
+  });
+
+  // 학번은 숫자만, 다섯 자리까지만
+  studentId.addEventListener('input', function () {
+    this.value = this.value.replace(/\D/g, '').slice(0, 5);
+    if (this.value.length === 5) setInvalid(this, false);
+  });
+
+  workTitle.addEventListener('input', function () { if (this.value.trim()) setInvalid(this, false); });
+  studentName.addEventListener('input', function () { if (this.value.trim()) setInvalid(this, false); });
+  categoryList.addEventListener('change', function () {
+    if (document.querySelector('input[name="category"]:checked')) setInvalid(categoryList, false);
+  });
+
+  // [추가] 제출 후 서식 비우기
+  function resetForm() {
+    document.querySelectorAll('input[name="category"]').forEach(function (c) { c.checked = false; });
+    workTitle.value = '';
+    descs.forEach(function (d) {
+      d.el.value = '';
+      document.getElementById(d.el.id + 'Count').textContent = '0자';
+    });
+    studentId.value = '';
+    studentName.value = '';
+    photoInput.value = '';
+    photoData = null;
+    preview.hidden = true;
+    preview.removeAttribute('src');
+    placeholderText.hidden = false;
+    fileName.textContent = '선택된 사진 없음';
+  }
+
+  // 제출하기
+  submitBtn.addEventListener('click', async function () {
+    const problems = [];
+    let firstBad = null;
+    function check(ok, el, label) {
+      setInvalid(el, !ok);
+      if (!ok) { problems.push(label); if (!firstBad) firstBad = el; }
+    }
+
+    const categories = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(function (c) { return c.value; });
+    const id = studentId.value.trim();
+    const name = studentName.value.trim();
+
+    check(categories.length > 0, categoryList, '출품 부문');
+    check(workTitle.value.trim() !== '', workTitle, '작품 제목');
+    check(!!photoData, imageBox, '사진');
+    descs.forEach(function (d) { check(d.el.value.trim() !== '', d.el, d.label); });
+    check(/^\d{5}$/.test(id), studentId, id ? '학번(숫자 다섯 자리)' : '학번');
+    check(name !== '', studentName, '이름');
+
+    if (problems.length > 0) {
+      showStatus('빨간 칸을 확인해 주세요: ' + problems.join(', '), 'warn');
+      firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (firstBad.tagName !== 'DIV') firstBad.focus({ preventScroll: true });
+      return;
+    }
+
+    // [추가] Firestore에 저장
+    submitBtn.disabled = true;
+    submitBtn.textContent = '저장 중...';
+    showStatus('출품서를 저장하고 있어요. 잠시만 기다려 주세요.', 'ok');
+
+    // [변경] 작품(공개용)과 학생 정보(비공개용)를 나눠서 저장
+    //   gallery  : 갤러리에 보이는 작품 정보 (누구나 읽기)
+    //   students : 학번·이름 (선생님만 콘솔에서 확인)
+    const workRef = doc(collection(db, 'gallery'));      // 새 작품 문서 자리 (번호 자동)
+    const workData = {
+      작품제목: workTitle.value.trim(),
+      출품부문: categories,
+      사진: photoData,
+      제출시각: serverTimestamp()
+    };
+    descs.forEach(function (d) { workData[d.key] = d.el.value.trim(); });
+
+    const studentData = {
+      학번: id,
+      이름: name,
+      작품번호: workRef.id,                               // 어느 작품을 냈는지 연결
+      작품제목: workData.작품제목,
+      제출시각: serverTimestamp()
+    };
+
+    try {
+      // 두 문서를 한 번에 저장 (하나만 저장되는 일이 없게)
+      const batch = writeBatch(db);
+      batch.set(workRef, workData);
+      batch.set(doc(collection(db, 'students')), studentData);
+      await batch.commit();
+      showStatus(id + ' ' + name + ' 학생의 출품서가 저장되었습니다!', 'ok');
+      resetForm();
+    } catch (error) {
+      console.error('저장 오류:', error);
+      if (error.code === 'permission-denied') {
+        showStatus('저장 권한이 없어요. Firestore 보안 규칙을 확인해 주세요. (permission-denied)', 'warn');
+      } else {
+        showStatus('저장 중 오류가 발생했어요. 인터넷 연결을 확인하고 다시 눌러 주세요. (' + (error.code || error.message) + ')', 'warn');
+      }
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '제출하기';
+      statusBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
+
+  // ───────── [추가] 갤러리 ─────────
+  const CAT_NAMES = { A: 'A 도형과 측정', B: 'B 변화와 관계', C: 'C 자료와 가능성', D: 'D 문제해결과 모델링' };
+  const DESC_ITEMS = [
+    ['사진설명', '① 발견: 사진 설명'],
+    ['수학개념', '② 연결: 수학개념'],
+    ['수와식', '③ 근거: 수와 식'],
+    ['변화심화', '④ 확장: 변화, 심화']
+  ];
+  const galleryEl = document.getElementById('gallery');
+  const galleryMsg = document.getElementById('galleryMsg');
+  const galleryCount = document.getElementById('galleryCount');
+  const filtersEl = document.getElementById('filters');
+  const dialog = document.getElementById('workDialog');
+  const dlgTags = document.getElementById('dlgTags');
+
+  let works = [];          // 불러온 작품 목록
+  let currentCat = 'all';  // 선택한 부문 필터
+
+  function fillTags(box, cats) {
+    box.textContent = '';
+    (cats || []).forEach(function (c) {
+      const t = document.createElement('span');
+      t.className = 'tag';
+      t.textContent = CAT_NAMES[c] || c;
+      box.appendChild(t);
+    });
+  }
+
+  function renderGallery() {
+    const shown = works.filter(function (w) {
+      return currentCat === 'all' || (w.출품부문 || []).includes(currentCat);
+    });
+    galleryEl.textContent = '';
+    galleryCount.textContent = works.length ? '(' + works.length + '점)' : '';
+    if (works.length === 0) {
+      galleryMsg.textContent = '아직 출품된 작품이 없어요. 첫 작품을 제출해 보세요!';
+      galleryMsg.hidden = false;
+      return;
+    }
+    if (shown.length === 0) {
+      galleryMsg.textContent = '이 부문에는 아직 작품이 없어요.';
+      galleryMsg.hidden = false;
+      return;
+    }
+    galleryMsg.hidden = true;
+    shown.forEach(function (w) {
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'card';
+      const img = document.createElement('img');
+      img.src = w.사진 || '';
+      img.alt = w.작품제목 || '출품 작품';
+      img.loading = 'lazy';
+      const body = document.createElement('div');
+      body.className = 'card-body';
+      const title = document.createElement('p');
+      title.className = 'card-title';
+      title.textContent = w.작품제목 || '(제목 없음)';
+      const tags = document.createElement('div');
+      tags.className = 'tags';
+      fillTags(tags, w.출품부문);
+      body.appendChild(title);
+      body.appendChild(tags);
+      card.appendChild(img);
+      card.appendChild(body);
+      card.addEventListener('click', function () { openWork(w); });
+      galleryEl.appendChild(card);
+    });
+  }
+
+  // 카드를 누르면 크게 보기
+  function openWork(w) {
+    const img = document.getElementById('dlgImg');
+    img.src = w.사진 || '';
+    img.alt = w.작품제목 || '출품 작품';
+    document.getElementById('dlgTitle').textContent = w.작품제목 || '(제목 없음)';
+    fillTags(dlgTags, w.출품부문);
+    const dl = document.getElementById('dlgDesc');
+    dl.textContent = '';
+    DESC_ITEMS.forEach(function (item) {
+      const dt = document.createElement('dt');
+      dt.textContent = item[1];
+      const dd = document.createElement('dd');
+      dd.textContent = w[item[0]] || '-';
+      dl.appendChild(dt);
+      dl.appendChild(dd);
+    });
+    dialog.showModal();
+  }
+
+  document.getElementById('dlgClose').addEventListener('click', function () { dialog.close(); });
+  dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });  // 바깥을 누르면 닫기
+
+  // 부문 필터 버튼
+  filtersEl.addEventListener('click', function (e) {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    currentCat = chip.dataset.cat;
+    filtersEl.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('active', c === chip); });
+    renderGallery();
+  });
+
+  // 실시간으로 불러오기: 누가 제출하면 새로고침하지 않아도 바로 나타남
+  const galleryQuery = query(collection(db, 'gallery'), orderBy('제출시각', 'desc'), limit(60));
+  onSnapshot(galleryQuery, function (snap) {
+    works = snap.docs.map(function (d) { return d.data(); });
+    renderGallery();
+  }, function (error) {
+    console.error('갤러리 오류:', error);
+    galleryMsg.hidden = false;
+    galleryMsg.textContent = error.code === 'permission-denied'
+      ? '갤러리를 읽을 권한이 없어요. Firestore 보안 규칙을 확인해 주세요.'
+      : '작품을 불러오지 못했어요. 인터넷 연결을 확인해 주세요.';
+  });
+</script>
+
+</body>
+</html>
